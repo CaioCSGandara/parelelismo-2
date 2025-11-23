@@ -6,7 +6,8 @@ public class Distribuidor {
 
     // CONFIGURAÇÃO DOS SERVIDORES (IPs e Portas)
     private static final String[][] SERVIDORES = {
-            {"127.0.0.1", "12345"}
+            {"127.0.0.1", "8081"},
+            {"127.0.0.1", "8082"}
     };
 
     public static void main(String[] args) {

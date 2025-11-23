@@ -4,14 +4,13 @@ public class OrdenacaoLocal {
     public static void main(String[] args) {
         try {
             System.out.println("--- ORDENAÇÃO LOCAL (SEM REDE) ---");
-            int tamanhoTotal = 30_000_000; // Mesmo tamanho do distribuído
+            int tamanhoTotal = 30_000_000;
             byte[] vetor = new byte[tamanhoTotal];
             new Random().nextBytes(vetor);
 
             System.out.println("Iniciando ordenação local...");
             long inicio = System.currentTimeMillis();
 
-            // Usa o mesmo helper, mas rodando tudo numa máquina só
             byte[] resultado = MergeSortHelper.parallelSort(vetor);
 
             long fim = System.currentTimeMillis();

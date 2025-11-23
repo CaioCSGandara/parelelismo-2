@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Receptor {
-    private static final int PORTA = 8082; // Se for rodar 2 na mesma máquina, mude para 12346 no segundo código
+    private static final int PORTA = 8082;
 
     public static void main(String[] args) {
         System.out.println("[R] Servidor Receptor ouvindo na porta " + PORTA);
@@ -33,7 +33,6 @@ public class Receptor {
                         byte[] vetor = pedido.getNumeros();
                         System.out.println("[R] Pedido recebido. Tamanho: " + vetor.length);
 
-                        // 1. Setup
                         int numProcessadores = Runtime.getRuntime().availableProcessors();
                         System.out.println("[R] Usando " + numProcessadores + " threads para processar.");
                         List<byte[]> partesParaOrdenar = dividirVetor(vetor, numProcessadores);
@@ -41,7 +40,7 @@ public class Receptor {
                         Thread[] threads = new Thread[numProcessadores];
                         byte[][] resultadosOrdenacao = new byte[numProcessadores][];
 
-                        // 2. Processamento Paralelo
+
                         for (int i = 0; i < numProcessadores; i++) {
                             if (i < partesParaOrdenar.size()) {
                                 final int index = i;
@@ -53,7 +52,6 @@ public class Receptor {
                             }
                         }
 
-                        // 3. Join
                         List<byte[]> partesOrdenadas = new ArrayList<>();
                         for (int i = 0; i < numProcessadores; i++) {
                             if (threads[i] != null) {
@@ -62,7 +60,6 @@ public class Receptor {
                             }
                         }
 
-                        // 4. Merge Final e Resposta
                         byte[] resultadoFinal = executarMergeParalelo(partesOrdenadas);
                         transmissor.writeObject(new Resposta(resultadoFinal));
                         transmissor.flush();
@@ -73,7 +70,6 @@ public class Receptor {
                         running = false;
                     }
                 } catch (EOFException e) {
-                    // TRATAMENTO DO ERRO QUE VOCÊ ESTÁ TENDO
                     System.out.println("[R] Cliente desconectou (EOF). Sessão finalizada.");
                     running = false;
                 }
@@ -86,7 +82,6 @@ public class Receptor {
         }
     }
 
-    // --- MÉTODOS AUXILIARES ---
 
     private static List<byte[]> dividirVetor(byte[] total, int partes) {
         List<byte[]> lista = new ArrayList<>();
